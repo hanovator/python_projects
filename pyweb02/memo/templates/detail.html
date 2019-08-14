@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>메모 편집</h2>
+    <form method="post" name="form1">
+        <table border="1">
+            <tr>
+                <td>이름</td>
+                <td><input type="text" name="writer" value="{{ dto.writer }}"/></td>
+            </tr>
+            <tr>
+                <td>날짜</td>
+                <td>{{ dto.post_date }}</td>
+            </tr>
+            <tr>
+                <td>메모</td>
+                <td><input type="text" name="memo" value="{{ dto.memo }}"/></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="hidden" name="idx" value="{{ dto.idx }}" />
+                    <input type="button" value="수정" onclick="update()" />
+                    <input type="button" value="삭제" onclick="del()" />
+                </td>
+            </tr>
+        </table>
+    </form>
+<script>
+    function update() {
+        document.form1.action = "update_memo"
+        document.form1.submit()
+    }
+
+    function del() {
+        if(confirm("삭제 하시겠습니까?")){
+            document.form1.action = "delete_memo"
+            document.form1.submit()
+        }
+    }
+</script>
+</body>
+</html>
