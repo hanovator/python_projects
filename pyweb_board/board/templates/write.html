@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>글쓰기</h2>
+    <form id="form1" name="form1" method="post" action="insert" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>이름 <input type="text" name="writer" size="80" placeholder="이름을 입력하세요" /></p>
+        <p>제목 <input type="text" name="title" size="80" placeholder="제목을 입력하세요" /></p>
+        <p>내용 <textarea rows="3" cols="80" name="content" placeholder="내용을 입력하세요"></textarea></p>
+        <p>첨부파일 <input type="file" name="file" /></p>
+        <p><input type="submit" value="확인" id="btnSave"/></p>
+    </form>
+</body>
+</html>

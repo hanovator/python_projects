@@ -1,0 +1,50 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>게시판</h2>
+    <form method="post">
+        {% csrf_token %}
+        <select name="search_option">
+            <option value="writer" {% if search_option == 'writer' %}selected{% endif %}>이름</option>
+            <option value="title" {% if search_option == 'title' %}selected{% endif %}>제목</option>
+            <option value="content" {% if search_option == 'content' %}selected{% endif %}>내용</option>
+            <option value="all" {% if search_option == 'all' %}selected{% endif %}>이름+제목+내용</option>
+        </select>
+        <input type="text" name="search" value="{{ search }}"/>
+        <input type="submit" value="검색"/>
+    </form>
+    게시글 갯수 : {{ boardCount }}
+    <a href="write">글쓰기</a>
+    <table border="1">
+        <tr>
+            <th>번호</th>
+            <th>이름</th>
+            <th>제목</th>
+            <th>날짜</th>
+            <th>조회수</th>
+            <th>첨부파일</th>
+            <th>다운로드</th>
+        </tr>
+        {% for row in boardList %}
+        <tr>
+            <td>{{ row.idx }}</td>
+            <td>{{ row.writer }}</td>
+            <td><a href="detail?idx={{ row.idx }}">{{ row.title }}</a></td>
+            <td>{{ row.post_date }}</td>
+            <td>{{ row.hit }}</td>
+            <td>
+                {% if row.filesize > 0 %}
+                <a href="download?idx={{ row.idx }}"><img src="{% static 'imgs/file.gif' %}"></a>
+                {% endif %}
+            </td>
+            <td>{{ row.down }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
