@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>방명록</h2>
+    <form name="form1" method="post">
+        {% csrf_token %}
+        <select name="searchkey">
+            <option value="name"{% if searchkey == "name" %} selected{% endif %}>이름</option>
+            <option value="content" {% if searchkey == "content" %} selected{% endif %}>내용</option>
+            <option value="name_content" {% if searchkey == "name_content" %} selected{% endif %}>이름+내용</option>
+        </select>
+        <input type="text" name="search" value="{{ search }}"/>
+        <input type="submit" value="조회" />
+    </form>
+
+    {{ gbCount }}개의 글이 있습니다.
+    <span style="color:red">{{ msg }}</span>
+    <input type="button" value="글쓰기" onclick="location.href='write'" />
+    {% for row in gbList %}
+    <form method="post" action="passwd_check">
+        {% csrf_token %}
+        <input type="hidden" name="idx" value="{{ row.idx }}" />
+        <table border="1" width="600px">
+            <tr>
+                <td>이름</td>
+                <td>{{ row.name }}</td>
+                <td>날짜</td>
+                <td>{{ row.post_date|date:"Y-m-d" }}</td>
+            </tr>
+            <tr>
+                <td>이메일</td>
+                <td colspan="3">{{ row.email }}</td>
+            </tr>
+            <tr>
+                <td colspan="4">{{ row.content }}</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <label for="passwd">비밀번호</label> <input type="password" name="passwd" />
+                    <input type="submit" value="수정/삭제" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    {% endfor %}
+</body>
+</html>

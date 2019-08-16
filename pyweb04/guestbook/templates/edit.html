@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>방명록 편집</h2>
+    <form method="post" name="form1">
+        {% csrf_token %}
+        <input type="hidden" name="idx" value="{{ dto.idx }}" />
+        <table border="1" width="600px">
+            <tr>
+                <td>이름</td>
+                <td><input type="text" name="name" value="{{ dto.name }}" /></td>
+                <td>날짜</td>
+                <td>{{ dto.post_date|date:"Y-m-d" }}</td>
+            </tr>
+            <tr>
+                <td>이메일</td>
+                <td colspan="3"><input type="text" name="email" value="{{ dto.email }}" /></td>
+            </tr>
+            <tr>
+                <td>비밀번호</td>
+                <td colspan="3"><input type="password" name="passwd" value="" /></td>
+            </tr>
+            <tr>
+                <td colspan="4"><textarea name="content">{{ dto.content }}</textarea></td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <input type="button" value="수정" onclick="gb_update()" />
+                    <input type="button" value="삭제" onclick="gb_delete()" />
+                    <input type="button" value="목록" onclick="location.href = '/'" />
+                </td>
+            </tr>
+        </table>
+    </form>
+<script>
+    function gb_update() {
+        document.form1.action = "gb_update"
+        document.form1.submit()
+    }
+    function gb_delete() {
+        if(confirm("삭제하시겠습니까?")){
+            document.form1.action = "gb_delete"
+            document.form1.submit()
+        }
+    }
+</script>
+</body>
+</html>
