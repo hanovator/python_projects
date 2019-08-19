@@ -18,4 +18,10 @@ urlpatterns = [
     path("join/", views.join, name="join"),
     path("login/", views.login_check, name="login"),
     path("logout/", views.logout, name="logout"),
+    # 장바구니 관련 url
+    path('cart_insert', views.cart_insert),
+    path('cart_list', views.cart_list),
+    path('cart_update', views.cart_update),
+    path('cart_del', views.cart_del),
+    path('cart_del_all', views.cart_del_all),
 ]

@@ -1,9 +1,4 @@
-from django.shortcuts import render
-import math
-import os
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, HttpResponseRedirect
-from django.utils.http import urlquote
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.models import User
 from django.contrib.auth import (
@@ -24,7 +19,9 @@ def product_list(request):
 
 
 def product_write(request):
-    return render_to_response('product_write.html')
+    if request.session.get('userid', False) == 'admin':
+        return render_to_response('product_write.html')
+    return redirect('/login')
 
 
 @csrf_exempt
@@ -54,9 +51,13 @@ def product_detail(request):
 
 
 def product_edit(request):
-    pid = request.GET['product_id']
-    dto = Product.objects.get(product_id=pid)
-    return render_to_response('product_edit.html', {'dto': dto})
+    # 세션이 존재하면 세선에 저장된 값, 존재하지 않으면 False
+    if request.session.get('userid', False) == 'admin':
+        pid = request.GET['product_id']
+        dto = Product.objects.get(product_id=pid)
+        return render_to_response('product_edit.html', {'dto': dto})
+    else:
+        return redirect('/login')
 
 
 @csrf_exempt
@@ -142,3 +143,101 @@ def logout(request):
     for sesskey in request.session.keys():
         del request.session[sesskey]
     return redirect('/')
+
+
+@csrf_exempt
+def cart_insert(request):
+    uid = request.session.get('userid', False)
+    if uid:
+        dto = Cart(userid=uid, product_id=request.POST['product_id'], amount=request.POST['amount'])
+        dto.save()
+        return redirect('/cart_list')
+    else:
+        return redirect('/login')
+
+def cart_list(request):
+    uid = request.session.get('userid', False)
+    if uid:
+        cartCount = Cart.objects.count()
+        cartList = Cart.objects.raw(
+            """
+                select 
+                    cart_id, userid, amount, c.product_id, product_name, price, amount*price money
+                from shop_cart c, shop_product p 
+                where c.product_id = p.product_id and userid = '{0}'
+            """.format(uid)
+        )
+        sumMoney = 0
+        fee = 0
+        sum = 0
+        if cartCount > 0:
+            sumRow = Cart.objects.raw(
+                """
+                    select 
+                        sum(amount*price) cart_id
+                    from shop_cart c, shop_product p 
+                    where c.product_id = p.product_id and userid = '{0}'
+                """.format(uid)
+            )
+            sumMoney = sumRow[0].cart_id
+            if sumMoney is not None and sumMoney > 50000:
+                fee = 0
+            else:
+                fee = 2500
+
+            if sumMoney is not None:
+                sum = sumMoney + fee
+            else:
+                sumMoney = 0
+                sum = 0
+
+        return render_to_response('cart_list.html', {'cartList': cartList, 'cartCount': cartCount, 'sumMoney': sumMoney, 'fee': fee, 'sum': sum})
+    else:
+        return redirect('/login')
+
+
+@csrf_exempt
+def cart_del(request):
+    Cart.objects.get(cart_id=request.GET['cart_id']).delete()
+    return redirect('/cart_list')
+
+
+@csrf_exempt
+def cart_del_all(request):
+    uid = request.session.get('userid', False)
+    if uid:
+        Cart.objects.filter(userid=uid).delete()
+        return redirect('/cart_list')
+    else:
+        return redirect('/login')
+
+
+@csrf_exempt
+def cart_update(request):
+    uid = request.session.get('userid', False)
+    if uid:
+        amt = request.POST.getlist('amount')
+        cid = request.POST.getlist('cart_id')
+        pid = request.POST.getlist('product_id')
+
+        for idx in range(len(cid)):
+            dto = Cart(cart_id=cid[idx], userid=uid, product_id=pid[idx], amount=amt[idx])
+            dto.save()
+        return redirect('/cart_list')
+    else:
+        return redirect('/login')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
