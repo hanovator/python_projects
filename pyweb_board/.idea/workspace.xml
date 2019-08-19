@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40a79550-5823-4f0c-8f61-1ab7d1fcd912" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/pyweb_board.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/board/templates/detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/board/templates/list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/board/templates/write.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../pyweb_shop/shop/templates/product_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -88,7 +82,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1565922648117</updated>
-      <workItem from="1565922649827" duration="10206000" />
+      <workItem from="1565922649827" duration="10790000" />
+      <workItem from="1565939144058" duration="29000" />
     </task>
     <servers />
   </component>
@@ -100,7 +95,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

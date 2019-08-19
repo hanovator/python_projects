@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>상품 정보 편집</h2>
+    <form name="form1" method="post" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td>상품명</td>
+                <td><input type="text" name="product_name" value="{{ dto.product_name }}" /></td>
+            </tr>
+            <tr>
+                <td>가격</td>
+                <td><input type="text" name="price" value="{{ dto.price }}" /></td>
+            </tr>
+            <tr>
+                <td>상품설명</td>
+                <td><textarea name="description" cols="50" rows="7">{{ dto.description }}</textarea></td>
+            </tr>
+            <tr>
+                <td>상품 이미지</td>
+                <td>
+                    {% load static %}
+                    {% static "" as baseUrl %}
+                    <img src="{{ baseUrl }}images/{{ dto.picture_url }}" width="300px" height="300px">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="file" name="file1" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="hidden" name="product_id" value="{{ dto.product_id }}">
+                    <input type="button" value="수정" onclick="product_update()" />
+                    <input type="button" value="삭제" onclick="product_delete()" />
+                    <input type="button" value="목록" onclick="location.href='product_list'" />
+                </td>
+            </tr>
+        </table>
+    </form>
+<script>
+    function product_update() {
+        document.form1.action = 'product_update'
+        document.form1.submit()
+    }
+    function product_delete() {
+        document.form1.action = 'product_delete'
+        document.form1.submit()
+    }
+</script>
+</body>
+</html>
