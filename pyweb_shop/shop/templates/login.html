@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>로그인</h2>
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            <tbody>
+            <tr>
+                <th><label for="id_username">사용자 이름:</label></th>
+                <td><input type="text" name="username" maxlength="150" required="" id="id_username"><br><span
+                        class="helptext">150자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다.</span></td>
+            </tr>
+            <tr>
+                <th><label for="id_password">비밀번호:</label></th>
+                <td><input type="password" name="password" maxlength="128" required="" id="id_password"></td>
+            </tr>
+            </tbody>
+        </table>
+        <input type="submit" value="로그인" />
+    </form>
+</body>
+</html>

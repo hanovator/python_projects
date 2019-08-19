@@ -13,5 +13,9 @@ urlpatterns = [
     path('product_edit', views.product_edit),
     path('product_update', views.product_update),
     path('product_delete', views.product_delete),
-
+    # 회원 로그인 처리 관련
+    path("", views.home, name="home"),
+    path("join/", views.join, name="join"),
+    path("login/", views.login_check, name="login"),
+    path("logout/", views.logout, name="logout"),
 ]
